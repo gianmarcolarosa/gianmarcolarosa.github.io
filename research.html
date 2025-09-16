@@ -7,16 +7,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <header>
-    <h1>Gianmarco La Rosa</h1>
-    <h2>Ph.D. in Mathematics and Computational Sciences</h2>
-    <nav>
-      <a href="main.html">Main</a>
-      <a href="research.html">Research</a>
-      <a href="teaching.html">Teaching</a>
-    </nav>
-  </header>
+  <div id="header"></div>
 
   <main>
     <section>
@@ -46,6 +37,13 @@
     © 2025 – Gianmarco La Rosa
   </footer>
 
+  <script>
+    fetch("header.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("header").innerHTML = data;
+      });
+  </script>
 </body>
 </html>
 
