@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Main – Gianmarco La Rosa</title>
+  <title>Gianmarco La Rosa – Main</title>
+  <meta name="description" content="Personal website of Gianmarco La Rosa, Ph.D. in Mathematics and Computational Sciences. Research interests include Lie and Leibniz algebras, non-associative structures, and symbolic AI.">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <div id="header"></div>
 
@@ -32,7 +34,7 @@
       <h3>Contact</h3>
       <p>
         Email: <a href="mailto:gianmarco.larosa@unipa.it">gianmarco.larosa@unipa.it</a><br>
-        ORCID: <a href="https://orcid.org/0000-0003-1047-5993" target="_blank">0000-0003-1047-5993</a><br>
+        ORCID: <a href="https://orcid.org/0000-0003-1047-5993" target="_blank" rel="noopener noreferrer">0000-0003-1047-5993</a>
         GitHub: <a href="https://github.com/TUO-USERNAME" target="_blank">github.com/TUO-USERNAME</a>
       </p>
     </section>
@@ -42,12 +44,15 @@
     © 2025 – Gianmarco La Rosa
   </footer>
 
-  <script>
-    fetch("header.html")
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("header").innerHTML = data;
-      });
-  </script>
-</body>
+<script>
+  fetch("header.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("header").innerHTML = data;
+    })
+    .catch(error => {
+      console.error("Errore nel caricamento dell'header:", error);
+    });
+</script>
+
 </html>
