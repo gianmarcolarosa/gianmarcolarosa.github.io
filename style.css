@@ -50,6 +50,20 @@ section {
   margin-bottom: 40px;
 }
 
+.subsection {
+  margin-bottom: 1em;
+}
+
+.subsection h4 {
+  margin-bottom: 0.2em;
+  color: #2c3e50;
+}
+
+.subsection p {
+  margin: 0;
+  text-align: justify;
+}
+
 h3 {
   border-bottom: 2px solid #ccc;
   padding-bottom: 5px;
