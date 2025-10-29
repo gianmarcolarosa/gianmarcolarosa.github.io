@@ -89,3 +89,21 @@ body {
   font-family: "Computer Modern Serif", serif;
 }
 
+.subsection {
+  margin-bottom: 1.5em;
+}
+
+.subsection h4 {
+  margin-bottom: 0.3em;
+  color: #2c3e50;
+}
+
+.subsection ol, .subsection ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+.subsection li {
+  margin-bottom: 0.4em;
+  text-align: justify;
+}
