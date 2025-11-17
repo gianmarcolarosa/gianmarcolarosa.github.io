@@ -107,3 +107,10 @@ body {
   margin-bottom: 0.4em;
   text-align: justify;
 }
+
+.sc {
+  font-family: 'Latin Modern Roman', serif;
+  font-variant: small-caps;
+  font-size: 1em;
+  letter-spacing: 0.5px; /* opzionale, come LaTeX */
+}
