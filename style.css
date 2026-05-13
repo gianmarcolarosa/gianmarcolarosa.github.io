@@ -1,83 +1,80 @@
 body {
-  font-family: 'Helvetica Neue', sans-serif;
-  background-color: #fdfdfd;
-  color: #222;
   margin: 0;
   padding: 0;
-  line-height: 1.6;
+  background: #fcefe9;
+  color: #111111;
+  font-family: "Palatino Linotype", Palatino, "URW Palladio L", serif;
+  font-size: 18px;
+  line-height: 1.55;
 }
 
-header {
-  background-color: #154236;
-  color: #fff;
-  padding: 20px;
-  text-align: center;
+#wrapper {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px 40px 24px;
 }
 
-header h1 {
+header.site-header {
+  margin: 28px 0 24px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #bfbfbf;
+}
+
+header.site-header h1 {
   margin: 0;
-  font-size: 2.2em;
-}
-
-header h2 {
-  margin: 5px 0 10px 0;
+  font-size: 2.1rem;
   font-weight: normal;
-  font-size: 1.1em;
 }
 
-nav {
-  margin-top: 10px;
+header.site-header p.site-subtitle {
+  margin: 6px 0 10px 0;
+  font-size: 1rem;
 }
 
-nav a {
-  color: #fff;
-  margin: 0 10px;
-  text-decoration: none;
-  font-weight: bold;
+nav.site-nav {
+  font-size: 1rem;
 }
 
-nav a:hover {
-  text-decoration: underline;
+nav.site-nav a {
+  margin-right: 14px;
 }
 
 main {
-  padding: 30px 20px;
-  max-width: 900px;
-  margin: auto;
+  margin: 0;
 }
 
 section {
-  margin-bottom: 40px;
+  margin: 0 0 28px 0;
 }
 
-.subsection {
-  margin-bottom: 1em;
-}
-
-.subsection h4 {
-  margin-bottom: 0.2em;
-  color: #2c3e50;
-}
-
-.subsection p {
-  margin: 0;
-  text-align: justify;
+h2 {
+  margin: 0 0 10px 0;
+  font-size: 1.35rem;
+  font-weight: normal;
 }
 
 h3 {
-  border-bottom: 2px solid #ccc;
-  padding-bottom: 5px;
+  margin: 18px 0 8px 0;
+  font-size: 1.08rem;
+  font-weight: normal;
 }
 
-footer {
-  background-color: #eee;
-  text-align: center;
-  padding: 15px;
-  font-size: 0.9em;
+p {
+  margin: 0 0 12px 0;
+}
+
+ul,
+ol {
+  margin: 8px 0 0 24px;
+  padding: 0;
+}
+
+li {
+  margin: 0 0 10px 0;
 }
 
 a {
-  color: #002244;
+  color: #0044FF;
   text-decoration: none;
 }
 
@@ -85,32 +82,81 @@ a:hover {
   text-decoration: underline;
 }
 
-body {
-  font-family: "Computer Modern Serif", serif;
+.profile-block {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
 }
 
-.subsection {
-  margin-bottom: 1.5em;
-}
-
-.subsection h4 {
-  margin-bottom: 0.3em;
-  color: #2c3e50;
-}
-
-.subsection ol, .subsection ul {
+.meta-list {
+  list-style: none;
   margin: 0;
-  padding-left: 1.2em;
+  padding: 0;
 }
 
-.subsection li {
-  margin-bottom: 0.4em;
-  text-align: justify;
+.meta-list li {
+  margin: 0 0 4px 0;
 }
 
-.sc {
-  font-family: 'Latin Modern Roman', serif;
+.cv-note {
+  font-size: 0.98rem;
+}
+
+.smallcaps {
   font-variant: small-caps;
-  font-size: 1em;
-  letter-spacing: 0.5px; /* opzionale, come LaTeX */
+  letter-spacing: 0.02em;
+}
+
+footer {
+  margin-top: 36px;
+  padding-top: 12px;
+  border-top: 1px solid #bfbfbf;
+  font-size: 0.95rem;
+}
+
+.icon-link img {
+  width: 16px;
+  height: 16px;
+  vertical-align: text-bottom;
+  margin-right: 5px;
+}
+
+.two-column-note {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  gap: 16px;
+}
+
+.two-column-note .label {
+  font-weight: bold;
+}
+
+@media (max-width: 700px) {
+  body {
+    font-size: 17px;
+  }
+
+  #wrapper {
+    padding: 0 16px 30px 16px;
+  }
+
+  .two-column-note {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  nav.site-nav a {
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+}
+
+nav {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+nav a {
+  display: inline-block;
+  margin-right: 20px;
 }
