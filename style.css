@@ -160,3 +160,19 @@ nav a {
   display: inline-block;
   margin-right: 20px;
 }
+.research-map {
+  text-align: center;
+  margin: 1.5em 0 2.5em 0;
+}
+
+.research-map img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #333;
+}
+
+.research-map figcaption {
+  font-size: 0.9em;
+  margin-top: 0.5em;
+  color: #333;
+}
