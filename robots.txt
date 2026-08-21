@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gianmarcolarosa.github.io/sitemap.xml
