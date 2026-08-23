@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Taglio">
+<meta name="theme-color" content="#1D3D52">
+<title>Piano di taglio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E6E9EB;
+  --card:#FDFDFD;
+  --ink:#0F202B;
+  --steel:#1D3D52;
+  --rule:#9AA6AE;
+  --line:#C6CDD2;
+  --machine:#F2B417;
+  --machine-dark:#C2900A;
+  --scrap:#B9C2C8;
+  --good:#1F6B4D;
+  --alert:#A32B22;
+  --p1:#2A6F97; --p2:#B4574F; --p3:#4A7A3B; --p4:#6F5C9E;
+  --p5:#C07A2B; --p6:#2F7A79; --p7:#96527A; --p8:#54646E;
+  --display:'Barlow Condensed','Arial Narrow',system-ui,sans-serif;
+  --body:'IBM Plex Sans',system-ui,-apple-system,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);color:var(--ink);font-family:var(--body);
+  font-size:16px;line-height:1.45;
+  padding:0 0 108px;
+  padding-bottom:calc(108px + env(safe-area-inset-bottom));
+}
+.wrap{max-width:760px;margin:0 auto;padding:0 14px}
+
+/* ---------- testata ---------- */
+header{
+  background:var(--steel);color:#fff;
+  padding:16px 0 14px;
+  padding-top:calc(16px + env(safe-area-inset-top));
+  margin-bottom:16px;
+}
+header .wrap{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+h1{
+  font-family:var(--display);font-weight:700;font-size:30px;
+  letter-spacing:.045em;text-transform:uppercase;margin:0;line-height:1;
+}
+.netto{font-family:var(--mono);font-size:12px;color:#A9C0D0;text-align:right;letter-spacing:.02em}
+.netto b{display:block;color:#fff;font-size:15px;font-weight:600}
+
+/* ---------- schede ---------- */
+section{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:3px;padding:14px;margin-bottom:14px;
+}
+h2{
+  font-family:var(--display);font-weight:600;font-size:13px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--steel);
+  margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line);
+}
+label{display:block;font-size:12px;color:#5A6A74;margin-bottom:4px;letter-spacing:.01em}
+input[type=number]{
+  width:100%;font-family:var(--mono);font-size:17px;font-weight:500;
+  padding:11px 10px;border:1px solid var(--line);border-radius:2px;
+  background:#fff;color:var(--ink);
+  -moz-appearance:textfield;
+}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input:focus-visible{outline:2px solid var(--machine);outline-offset:1px;border-color:var(--machine-dark)}
+.barra-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:10px}
+
+/* ---------- righe pezzi ---------- */
+.riga{display:grid;grid-template-columns:26px 1fr 84px 38px;gap:8px;align-items:end;margin-bottom:8px}
+.tag{
+  font-family:var(--display);font-weight:700;font-size:19px;color:#fff;
+  background:var(--steel);height:43px;display:flex;align-items:center;justify-content:center;
+  border-radius:2px;letter-spacing:.03em;
+}
+.intest{display:grid;grid-template-columns:26px 1fr 84px 38px;gap:8px;margin-bottom:4px}
+.intest span{font-size:11px;color:#5A6A74;letter-spacing:.06em;text-transform:uppercase}
+.togli{
+  height:43px;border:1px solid var(--line);background:#fff;border-radius:2px;
+  color:#8894A0;font-size:20px;line-height:1;cursor:pointer;font-family:var(--body);
+}
+.togli:hover{color:var(--alert);border-color:var(--alert)}
+.aggiungi{
+  width:100%;margin-top:6px;padding:11px;background:#fff;
+  border:1px dashed var(--rule);border-radius:2px;color:var(--steel);
+  font-family:var(--body);font-size:14px;font-weight:500;cursor:pointer;
+}
+.aggiungi:hover{border-color:var(--steel);background:#F4F7F9}
+
+/* ---------- pulsante calcola ---------- */
+.barra-azione{
+  position:fixed;left:0;right:0;bottom:0;z-index:20;
+  background:linear-gradient(to top,var(--paper) 68%,rgba(230,233,235,0));
+  padding:16px 14px;padding-bottom:calc(16px + env(safe-area-inset-bottom));
+}
+.barra-azione .wrap{padding:0}
+#calcola{
+  width:100%;padding:17px;border:none;border-radius:3px;
+  background:var(--machine);color:var(--ink);
+  font-family:var(--display);font-weight:700;font-size:21px;
+  letter-spacing:.12em;text-transform:uppercase;cursor:pointer;
+  box-shadow:0 2px 0 var(--machine-dark);
+}
+#calcola:active{transform:translateY(2px);box-shadow:none}
+#calcola:focus-visible{outline:3px solid var(--steel);outline-offset:2px}
+#calcola[disabled]{background:var(--line);box-shadow:none;color:#7C8792;cursor:default}
+
+/* ---------- esito ---------- */
+.errore{
+  background:#FBEDEC;border:1px solid var(--alert);border-left-width:4px;
+  color:var(--alert);padding:12px 14px;border-radius:2px;font-size:14px;margin-bottom:14px;
+}
+.vuoto{color:#6B7A84;font-size:14px;text-align:center;padding:26px 10px}
+
+.cifrone{display:flex;align-items:flex-end;gap:14px;margin-bottom:4px}
+.cifrone .n{font-family:var(--display);font-weight:700;font-size:62px;line-height:.82;color:var(--steel)}
+.cifrone .u{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.13em;text-transform:uppercase;color:#5A6A74;padding-bottom:6px}
+.bollo{
+  display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.05em;padding:3px 8px;border-radius:2px;margin-bottom:12px;
+}
+.bollo.ok{background:#E4F0EA;color:var(--good);border:1px solid #A8CDBB}
+.bollo.no{background:#FDF3DC;color:var(--machine-dark);border:1px solid #E8CE86}
+
+.numeri{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+  background:var(--line);border:1px solid var(--line);margin-bottom:16px;
+}
+.numeri div{background:var(--card);padding:9px 11px}
+.numeri dt{font-size:11px;color:#5A6A74;letter-spacing:.05em;text-transform:uppercase;margin:0}
+.numeri dd{font-family:var(--mono);font-size:16px;font-weight:500;margin:2px 0 0}
+
+/* ---------- legenda ---------- */
+.legenda{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:18px}
+.chip{
+  display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11.5px;
+  background:#fff;border:1px solid var(--line);padding:3px 7px 3px 4px;border-radius:2px;
+}
+.chip i{width:11px;height:11px;border-radius:1px;display:block}
+
+/* ---------- schema barra: l'elemento firma ---------- */
+.schema{margin-bottom:20px;page-break-inside:avoid;break-inside:avoid}
+.schema-testa{display:flex;align-items:baseline;gap:9px;margin-bottom:9px;flex-wrap:wrap}
+.molt{
+  font-family:var(--display);font-weight:700;font-size:25px;color:var(--ink);
+  background:var(--machine);padding:1px 9px;border-radius:2px;line-height:1.15;
+}
+.ricetta{font-family:var(--mono);font-size:13px;color:var(--steel);font-weight:500}
+.righello{position:relative;height:15px;border-bottom:1px solid var(--rule);margin-bottom:0}
+.righello .t{position:absolute;bottom:0;width:1px;background:var(--rule)}
+.righello .t.g{background:var(--steel)}
+.righello .e{
+  position:absolute;bottom:3px;font-family:var(--mono);font-size:9px;color:#6B7A84;
+  transform:translateX(2px);letter-spacing:-.02em;
+}
+.barra{
+  display:flex;height:46px;border:1px solid var(--steel);border-top:none;
+  background:#fff;overflow:hidden;
+}
+.pz{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:#fff;overflow:hidden;min-width:0;border-right:1px solid rgba(255,255,255,.28);
+}
+.pz b{font-family:var(--display);font-weight:700;font-size:17px;line-height:1;letter-spacing:.03em}
+.pz span{font-family:var(--mono);font-size:9.5px;opacity:.9;line-height:1.3;white-space:nowrap}
+.kf{background:var(--ink);min-width:1px}
+.tr{background:repeating-linear-gradient(45deg,#8E9AA2 0 3px,#A6B0B7 3px 6px)}
+.sc{
+  background:repeating-linear-gradient(45deg,var(--scrap) 0 4px,#CBD3D8 4px 8px);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:9.5px;color:#4C5A63;white-space:nowrap;overflow:hidden;
+}
+.piede{
+  display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;
+  color:#5A6A74;margin-top:5px;gap:10px;flex-wrap:wrap;
+}
+
+.stampa{
+  width:100%;padding:13px;background:#fff;border:1px solid var(--steel);
+  border-radius:2px;color:var(--steel);font-family:var(--display);font-weight:600;
+  font-size:15px;letter-spacing:.11em;text-transform:uppercase;cursor:pointer;margin-top:4px;
+}
+
+@media(max-width:420px){
+  .barra-grid{grid-template-columns:1fr 1fr;gap:9px}
+  .barra-grid > div:first-child{grid-column:1/-1}
+  .cifrone .n{font-size:52px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+@media print{
+  body{background:#fff;padding:0}
+  header{background:#fff;color:#000;border-bottom:2px solid #000;padding:0 0 8px;margin-bottom:12px}
+  .netto,.barra-azione,.stampa,#scheda-barra,#scheda-pezzi{display:none!important}
+  h1{color:#000}
+  section{border:none;padding:0}
+  .schema{margin-bottom:14px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>Piano di taglio</h1>
+    <div class="netto">materiale netto<b id="netto">0 mm</b></div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section id="scheda-barra">
+    <h2>La barra</h2>
+    <div class="barra-grid">
+      <div>
+        <label for="L">Lunghezza barra (mm)</label>
+        <input type="number" id="L" value="6000" min="1" step="1" inputmode="numeric">
+      </div>
+      <div>
+        <label for="K">Spessore lama (mm)</label>
+        <input type="number" id="K" value="2" min="0" step="1" inputmode="numeric">
+      </div>
+      <div>
+        <label for="T">Spuntatura (mm)</label>
+        <input type="number" id="T" value="0" min="0" step="1" inputmode="numeric">
+      </div>
+    </div>
+  </section>
+
+  <section id="scheda-pezzi">
+    <h2>I pezzi da tagliare</h2>
+    <div class="intest"><span></span><span>Lunghezza mm</span><span>Pezzi</span><span></span></div>
+    <div id="righe"></div>
+    <button class="aggiungi" id="aggiungi" type="button">+ Aggiungi una misura</button>
+  </section>
+
+  <section id="esito">
+    <h2>Risultato</h2>
+    <div class="vuoto">Inserisci le misure e premi Calcola.</div>
+  </section>
+
+</div>
+
+<div class="barra-azione">
+  <div class="wrap"><button id="calcola" type="button">Calcola</button></div>
+</div>
+
+<script>
+"use strict";
+
+const COLORI = ['--p1','--p2','--p3','--p4','--p5','--p6','--p7','--p8']
+  .map(v => getComputedStyle(document.documentElement).getPropertyValue(v).trim());
+const LETTERE = 'ABCDEFGHIJKL';
+const MAX_RIGHE = 12;
+const MAX_PATTERN = 250000;
+const TEMPO_MS = 4000;
+
+/* ============================================================
+   INTERFACCIA
+   ============================================================ */
+const righe = document.getElementById('righe');
+
+function aggiungiRiga(len = '', qty = '') {
+  if (righe.children.length >= MAX_RIGHE) return;
+  const i = righe.children.length;
+  const d = document.createElement('div');
+  d.className = 'riga';
+  d.innerHTML =
+    '<div class="tag"></div>' +
+    '<div><input type="number" class="len" min="1" step="1" inputmode="numeric" value="' + len + '"></div>' +
+    '<div><input type="number" class="qty" min="1" step="1" inputmode="numeric" value="' + qty + '"></div>' +
+    '<button class="togli" type="button" aria-label="Togli questa misura">&times;</button>';
+  d.querySelector('.togli').onclick = () => { d.remove(); rinomina(); aggiornaNetto(); };
+  d.querySelectorAll('input').forEach(inp => inp.oninput = aggiornaNetto);
+  righe.appendChild(d);
+  rinomina();
+}
+
+function rinomina() {
+  [...righe.children].forEach((r, i) => {
+    const t = r.querySelector('.tag');
+    t.textContent = LETTERE[i];
+    t.style.background = COLORI[i % COLORI.length];
+  });
+  document.getElementById('aggiungi').style.display =
+    righe.children.length >= MAX_RIGHE ? 'none' : 'block';
+}
+
+function leggi() {
+  const L = +document.getElementById('L').value || 0;
+  const K = +document.getElementById('K').value || 0;
+  const T = +document.getElementById('T').value || 0;
+  const pezzi = [...righe.children].map((r, i) => ({
+    lett: LETTERE[i],
+    col: COLORI[i % COLORI.length],
+    len: +r.querySelector('.len').value || 0,
+    qty: +r.querySelector('.qty').value || 0
+  })).filter(p => p.len > 0 && p.qty > 0);
+  return { L, K, T, pezzi };
+}
+
+function aggiornaNetto() {
+  const { pezzi } = leggi();
+  const tot = pezzi.reduce((s, p) => s + p.len * p.qty, 0);
+  document.getElementById('netto').textContent = fmt(tot) + ' mm';
+}
+
+const fmt = n => Math.round(n).toLocaleString('it-IT');
+
+/* ============================================================
+   SOLVER
+   Trasformazione l' = l + k, L' = L - trim + k: il kerf sparisce
+   e resta uno zaino puro. Poi:
+     1. enumerazione dei pattern massimali
+     2. rilassamento continuo risolto col simplesso  -> lower bound
+     3. arrotondamento per difetto della soluzione continua
+     4. branch and bound esatto sul residuo (piccolo, quindi chiude)
+   Con quantità alte i passi 3-4 sono ciò che rende il problema
+   trattabile: il B&B da solo, a 170 barre di profondità, non chiude.
+   ============================================================ */
+function risolvi(L, K, T, pezzi) {
+  const p = [...pezzi].sort((a, b) => b.len - a.len);
+  const m = p.length;
+  const Lp = L - T + K;
+  const lp = p.map(x => x.len + K);
+  const dom = p.map(x => x.qty);
+
+  for (let i = 0; i < m; i++)
+    if (lp[i] > Lp)
+      return { err: 'Il pezzo ' + p[i].lett + ' da ' + fmt(p[i].len) +
+               ' mm non entra in una barra utile da ' + fmt(L - T) + ' mm.' };
+
+  /* --- pattern massimali --- */
+  const pattern = [];
+  const cur = new Array(m).fill(0);
+  let troppi = false;
+  (function rec(i, rem) {
+    if (troppi) return;
+    if (pattern.length > MAX_PATTERN) { troppi = true; return; }
+    if (i === m) {
+      let vuoto = true;
+      for (let j = 0; j < m; j++) if (cur[j] > 0) { vuoto = false; break; }
+      if (vuoto) return;
+      for (let j = 0; j < m; j++) if (rem >= lp[j] && cur[j] < dom[j]) return;
+      pattern.push(cur.slice());
+      return;
+    }
+    const qmax = Math.min(dom[i], Math.floor(rem / lp[i]));
+    for (let q = qmax; q >= 0; q--) {
+      cur[i] = q;
+      rec(i + 1, rem - q * lp[i]);
+      if (troppi) { cur[i] = 0; return; }
+    }
+    cur[i] = 0;
+  })(0, Lp);
+
+  if (troppi)
+    return { err: 'Le misure sono troppo corte rispetto alla barra: le combinazioni possibili sono ' +
+             'troppe da esplorare. Prova ad accorciare la barra o a togliere una misura.' };
+
+  const peso = a => a.reduce((s, v, j) => s + v * lp[j], 0);
+  pattern.sort((a, b) => peso(b) - peso(a));
+
+  const perPezzo = Array.from({ length: m }, () => []);
+  pattern.forEach(a => { for (let j = 0; j < m; j++) if (a[j] > 0) perPezzo[j].push(a); });
+
+  const lb0 = res => {
+    let s = 0;
+    for (let j = 0; j < m; j++) s += res[j] * lp[j];
+    return Math.ceil(s / Lp);
+  };
+
+  /* --- greedy: copre una domanda residua qualsiasi, serve sia da
+         soluzione di riserva sia da upper bound iniziale --- */
+  function greedy(start) {
+    const res = start.slice(), sol = [];
+    let g = 0;
+    while (res.some(v => v > 0) && g++ < 200000) {
+      let i0 = res.findIndex(v => v > 0), best = null, bv = -1;
+      for (const a of perPezzo[i0]) {
+        let v = 0;
+        for (let j = 0; j < m; j++) v += Math.min(a[j], res[j]) * lp[j];
+        if (v > bv) { bv = v; best = a; }
+      }
+      for (let j = 0; j < m; j++) res[j] = Math.max(0, res[j] - best[j]);
+      sol.push(best);
+    }
+    return sol;
+  }
+
+  /* --- risolve un sistema m×m con eliminazione di Gauss --- */
+  function gauss(M, b) {
+    const A = M.map((r, i) => r.concat(b[i]));
+    for (let c = 0; c < m; c++) {
+      let piv = c;
+      for (let r = c + 1; r < m; r++) if (Math.abs(A[r][c]) > Math.abs(A[piv][c])) piv = r;
+      if (Math.abs(A[piv][c]) < 1e-9) return null;
+      [A[c], A[piv]] = [A[piv], A[c]];
+      for (let r = 0; r < m; r++) {
+        if (r === c) continue;
+        const f = A[r][c] / A[c][c];
+        if (f === 0) continue;
+        for (let k = c; k <= m; k++) A[r][k] -= f * A[c][k];
+      }
+    }
+    return A.map((r, i) => r[m] / r[i]);
+  }
+
+  /* --- rilassamento continuo  min 1'x, Ax >= n, x >= 0.
+         Ha solo m vincoli (una riga per misura), quindi la base è m×m
+         e il simplesso revisionato chiude in poche iterazioni.
+         Base iniziale ammissibile: i pattern "monotipo" (solo pezzi
+         uguali), che formano una matrice diagonale. --- */
+  function rilassamento() {
+    const col = pattern.map(a => a.slice());
+    const nPat0 = col.length;
+    const diag = [];
+    for (let i = 0; i < m; i++) {
+      const d = new Array(m).fill(0);
+      d[i] = Math.min(dom[i], Math.floor(Lp / lp[i]));
+      diag.push(col.length); col.push(d);
+    }
+    const nPat = col.length;
+    for (let i = 0; i < m; i++) {
+      const s = new Array(m).fill(0); s[i] = -1; col.push(s);
+    }
+    const costo = j => (j < nPat ? 1 : 0);
+    const base = diag.slice();
+    let xB = null;
+
+    for (let it = 0; it < 500; it++) {
+      const B  = Array.from({ length: m }, (_, i) => base.map(b => col[b][i]));
+      const BT = Array.from({ length: m }, (_, i) => col[base[i]].slice());
+      xB = gauss(B, dom.map(Number));
+      const y = gauss(BT, base.map(costo));
+      if (!xB || !y) return null;
+
+      let ent = -1, migl = -1e-7;
+      for (let j = 0; j < col.length; j++) {
+        let rc = costo(j);
+        for (let i = 0; i < m; i++) rc -= y[i] * col[j][i];
+        if (rc < migl) { migl = rc; ent = j; }
+      }
+      if (ent < 0) break;
+
+      const d = gauss(B, col[ent].map(Number));
+      if (!d) return null;
+      let uscente = -1, rapporto = Infinity;
+      for (let i = 0; i < m; i++)
+        if (d[i] > 1e-9 && xB[i] / d[i] < rapporto) { rapporto = xB[i] / d[i]; uscente = i; }
+      if (uscente < 0) return null;
+      base[uscente] = ent;
+    }
+
+    let valore = 0;
+    const interi = [];
+    for (let i = 0; i < m; i++) {
+      if (base[i] >= nPat || xB[i] <= 1e-9) continue;
+      valore += xB[i];
+      const q = Math.floor(xB[i] + 1e-9);
+      if (q > 0) interi.push({ a: col[base[i]], q });
+    }
+    return { valore, interi, nPat0 };
+  }
+
+  /* --- branch and bound esatto: ramifica sempre sul pezzo più lungo
+         ancora da produrre, così spariscono le simmetrie. Su un
+         residuo piccolo chiude e certifica in millisecondi. --- */
+  const scadenza = Date.now() + TEMPO_MS;
+  let scaduto = false, contatore = 0;
+
+  function esatto(res0) {
+    let sol = greedy(res0), n = sol.length;
+    const memo = new Map(), pila = [];
+    (function dfs(res, usate) {
+      if (scaduto) return;
+      if ((++contatore & 1023) === 0 && Date.now() > scadenza) { scaduto = true; return; }
+      let i0 = -1;
+      for (let j = 0; j < m; j++) if (res[j] > 0) { i0 = j; break; }
+      if (i0 < 0) { if (usate < n) { n = usate; sol = pila.slice(); } return; }
+      if (usate + lb0(res) >= n) return;
+      const chiave = res.join(',');
+      const visto = memo.get(chiave);
+      if (visto !== undefined && visto <= usate) return;
+      if (memo.size < 400000) memo.set(chiave, usate);
+      for (const a of perPezzo[i0]) {
+        const nres = new Array(m);
+        for (let j = 0; j < m; j++) nres[j] = res[j] > a[j] ? res[j] - a[j] : 0;
+        pila.push(a);
+        dfs(nres, usate + 1);
+        pila.pop();
+        if (scaduto) return;
+      }
+    })(res0.slice(), 0);
+    return sol;
+  }
+
+  /* --- due fasi: parte intera dal rilassamento, residuo all'esatto.
+         Se le quantità sono piccole il rilassamento arrotonda a zero,
+         il residuo coincide con la domanda intera e resta un B&B puro. --- */
+  const lp0 = rilassamento();
+  const lbGlobale = Math.max(lb0(dom), lp0 ? Math.ceil(lp0.valore - 1e-7) : 0);
+
+  let migliore;
+  if (lp0) {
+    const res = dom.slice(), fissi = [];
+    lp0.interi.forEach(({ a, q }) => {
+      for (let k = 0; k < q; k++) fissi.push(a);
+      for (let j = 0; j < m; j++) res[j] = Math.max(0, res[j] - a[j] * q);
+    });
+    migliore = fissi.concat(esatto(res));
+  } else {
+    migliore = esatto(dom);
+  }
+
+  const riserva = greedy(dom);
+  if (riserva.length < migliore.length) migliore = riserva;
+  let nMigliore = migliore.length;
+
+  /* --- raggruppa i pattern identici --- */
+  const conteggio = new Map();
+  migliore.forEach(a => {
+    const k = a.join(',');
+    conteggio.set(k, (conteggio.get(k) || 0) + 1);
+  });
+  const gruppi = [...conteggio.entries()]
+    .map(([k, q]) => ({ a: k.split(',').map(Number), q }))
+    .sort((x, y) => y.q - x.q || peso(y.a) - peso(x.a));
+
+  /* --- ripartizione esatta del materiale --- */
+  const utile = L - T;
+  let kerfTot = 0, scartoTot = 0;
+  const prodotti = new Array(m).fill(0);
+
+  gruppi.forEach(g => {
+    const mat = g.a.reduce((s, v, j) => s + v * p[j].len, 0);
+    const npz = g.a.reduce((s, v) => s + v, 0);
+    const resto = utile - mat - (npz - 1) * K;
+    let kerf, spezzone;
+    if (resto > K)      { kerf = npz * K;                 spezzone = resto - K; }
+    else if (resto > 0) { kerf = (npz - 1) * K + resto;   spezzone = 0; }
+    else                { kerf = (npz - 1) * K;           spezzone = 0; }
+    g.mat = mat; g.npz = npz; g.kerf = kerf; g.spezzone = spezzone;
+    kerfTot += kerf * g.q; scartoTot += spezzone * g.q;
+    for (let j = 0; j < m; j++) prodotti[j] += g.a[j] * g.q;
+  });
+
+  const netto = p.reduce((s, x) => s + x.len * x.qty, 0);
+  return {
+    p, gruppi, L, K, T, utile,
+    N: nMigliore, lb: lbGlobale, netto,
+    kerfTot, scartoTot, trimTot: T * nMigliore,
+    sfrido: kerfTot + scartoTot + T * nMigliore,
+    extraMat: nMigliore * L - netto - kerfTot - scartoTot - T * nMigliore,
+    ottimo: nMigliore === lbGlobale,
+    scaduto,
+    eccesso: p.map((x, j) => ({ lett: x.lett, n: prodotti[j] - x.qty })).filter(e => e.n > 0)
+  };
+}
+
+/* ============================================================
+   DISEGNO
+   ============================================================ */
+function righello(L) {
+  let passo = 1000;
+  for (const c of [50, 100, 200, 250, 500, 1000, 2000]) {
+    if (L / c <= 40) { passo = c; break; }
+  }
+  let h = '<div class="righello">';
+  for (let x = 0; x <= L; x += passo) {
+    const pc = (x / L) * 100;
+    const grande = x % (passo * 5) === 0;
+    h += '<div class="t' + (grande ? ' g' : '') + '" style="left:' + pc +
+         '%;height:' + (grande ? 11 : 5) + 'px"></div>';
+    if (grande && pc < 96)
+      h += '<div class="e" style="left:' + pc + '%">' + (x / 1000).toFixed(x % 1000 ? 1 : 0) + '</div>';
+  }
+  return h + '</div>';
+}
+
+function disegnaBarra(g, r) {
+  const { p, L, K, T } = r;
+  const pc = v => (v / L) * 100;
+  let h = righello(L) + '<div class="barra">';
+  if (T > 0) h += '<div class="tr" style="width:' + pc(T) + '%"></div>';
+
+  const blocchi = [];
+  for (let j = 0; j < p.length; j++)
+    for (let n = 0; n < g.a[j]; n++) blocchi.push(j);
+
+  blocchi.forEach((j, idx) => {
+    const w = pc(p[j].len);
+    h += '<div class="pz" style="width:' + w + '%;background:' + p[j].col + '">' +
+         (w > 3.2 ? '<b>' + p[j].lett + '</b>' : '') +
+         (w > 8 ? '<span>' + fmt(p[j].len) + '</span>' : '') +
+         '</div>';
+    const ultimo = idx === blocchi.length - 1;
+    if (!ultimo || g.spezzone > 0)
+      h += '<div class="kf" style="width:' + pc(K) + '%"></div>';
+  });
+
+  if (g.spezzone > 0)
+    h += '<div class="sc" style="width:' + pc(g.spezzone) + '%">' +
+         (pc(g.spezzone) > 7 ? fmt(g.spezzone) : '') + '</div>';
+
+  return h + '</div>';
+}
+
+function mostra(r) {
+  const box = document.getElementById('esito');
+  if (r.err) {
+    box.innerHTML = '<h2>Risultato</h2><div class="errore">' + r.err + '</div>';
+    box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+
+  const perc = (r.sfrido / (r.N * r.L)) * 100;
+  const pezziEccesso = r.eccesso.reduce((s, e) => s + e.n, 0);
+  let h = '<h2>Risultato</h2>';
+  h += '<div class="cifrone"><div class="n">' + r.N + '</div><div class="u">barre<br>da ' + fmt(r.L) + ' mm</div></div>';
+  h += r.ottimo
+    ? '<div class="bollo ok">✓ Minimo possibile, non si fa di meglio</div>'
+    : '<div class="bollo no">Minimo teorico ' + r.lb + ' barre, differenza ' + (r.N - r.lb) +
+      (r.scaduto ? ' — ricerca interrotta per tempo' : ' — non colmabile con queste misure') + '</div>';
+
+  h += '<dl class="numeri">' +
+    '<div><dt>Sfrido</dt><dd>' + fmt(r.sfrido) + ' mm · ' + perc.toFixed(2) + '%</dd></div>' +
+    '<div><dt>di cui segatura</dt><dd>' + fmt(r.kerfTot) + ' mm</dd></div>' +
+    '<div><dt>di cui spezzoni</dt><dd>' + fmt(r.scartoTot) + ' mm</dd></div>' +
+    (r.trimTot ? '<div><dt>di cui spuntature</dt><dd>' + fmt(r.trimTot) + ' mm</dd></div>' : '') +
+    '<div><dt>Impostazioni sega</dt><dd>' + r.gruppi.length + '</dd></div>' +
+    (r.extraMat > 0 ? '<div><dt>Pezzi in più</dt><dd>' + fmt(r.extraMat) + ' mm</dd></div>' : '') +
+    '</dl>';
+
+  h += '<div class="legenda">' + r.p.map(x =>
+    '<div class="chip"><i style="background:' + x.col + '"></i>' + x.lett + ' · ' + fmt(x.len) + ' × ' + x.qty + '</div>'
+  ).join('') + '</div>';
+
+  r.gruppi.forEach(g => {
+    const ric = r.p.map((x, j) => g.a[j] ? g.a[j] + '×' + x.lett : null).filter(Boolean).join('  +  ');
+    h += '<div class="schema">' +
+      '<div class="schema-testa"><span class="molt">' + g.q + '×</span><span class="ricetta">' + ric + '</span></div>' +
+      disegnaBarra(g, r) +
+      '<div class="piede"><span>' + g.npz + ' pezzi · ' + fmt(g.mat) + ' mm</span>' +
+      '<span>segatura ' + fmt(g.kerf) + ' · spezzone ' + fmt(g.spezzone) + ' mm</span></div>' +
+      '</div>';
+  });
+
+  if (r.eccesso.length)
+    h += '<div class="piede" style="margin-bottom:12px"><span>' + pezziEccesso +
+         ' pezzi oltre l\'ordine (' + r.eccesso.map(e => e.lett + ' +' + e.n).join(', ') +
+         '): tienili o buttali, le barre restano ' + r.N + '.</span></div>';
+
+  h += '<button class="stampa" type="button" onclick="window.print()">Stampa la lista</button>';
+  box.innerHTML = h;
+  box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ============================================================
+   AVVIO
+   ============================================================ */
+document.getElementById('aggiungi').onclick = () => aggiungiRiga();
+document.getElementById('calcola').onclick = () => {
+  const { L, K, T, pezzi } = leggi();
+  const box = document.getElementById('esito');
+  if (!L || !pezzi.length) {
+    box.innerHTML = '<h2>Risultato</h2><div class="errore">' +
+      'Serve la lunghezza della barra e almeno una misura con la sua quantità.</div>';
+    return;
+  }
+  const b = document.getElementById('calcola');
+  b.disabled = true; b.textContent = 'Calcolo…';
+  setTimeout(() => {
+    try { mostra(risolvi(L, K, T, pezzi)); }
+    catch (e) { mostra({ err: 'Il calcolo si è bloccato. Controlla che le misure siano numeri sensati.' }); }
+    b.disabled = false; b.textContent = 'Calcola';
+  }, 30);
+};
+['L', 'K', 'T'].forEach(id => document.getElementById(id).oninput = aggiornaNetto);
+
+aggiungiRiga(3600, 100);
+aggiungiRiga(2200, 100);
+aggiungiRiga(1270, 100);
+aggiungiRiga(1060, 100);
+aggiungiRiga(1050, 100);
+aggiungiRiga( 610,  50);
+aggiungiRiga( 460, 100);
+aggiungiRiga( 430, 100);
+aggiornaNetto();
+</script>
+</body>
+</html>
