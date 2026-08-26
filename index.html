@@ -82,32 +82,104 @@
       </section>
     </main>
 
-      <section>
-        <h2>Links and contact</h2>
-        <ul class="meta-list">
-          <li>Email: <a href="mailto:gianmarco.larosa@unipa.it">gianmarco.larosa@unipa.it</a></li>
-          <li><a href="https://orcid.org/0000-0003-1047-5993" target="_blank" rel="noopener noreferrer" class="icon-link"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" alt="ORCID logo">ORCID</a></li>
-          <li><a href="https://www.researchgate.net/profile/Gianmarco-La-Rosa-3" target="_blank" rel="noopener noreferrer" class="icon-link"><img src="researchgate.svg" alt="ResearchGate logo">ResearchGate</a></li>
-          <li><a href="https://scholar.google.com/citations?hl=en&user=dXPxc_QAAAAJ" target="_blank" rel="noopener noreferrer" class="icon-link"><img src="Google_Scholar_logo.svg" alt="Google Scholar logo">Google Scholar</a></li>
-        </ul>
-        <p class="cv-note">For publications and preprints, see the <a href="research.html">Research</a> page.</p>
-      </section>
-    </main>
+<section>
+  <h2>Links and contact</h2>
 
-    <footer>
-      Last updated: August 2026.
-    </footer>
+  <ul class="meta-list">
+    <li>
+      Email:
+      <a href="mailto:gianmarco.larosa@unipa.it">
+        gianmarco.larosa@unipa.it
+      </a>
+    </li>
+
+    <li>
+      <a href="https://orcid.org/0000-0003-1047-5993"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="icon-link">
+        <img src="https://orcid.org/sites/default/files/images/orcid_16x16.png"
+             alt="ORCID logo">
+        ORCID
+      </a>
+    </li>
+
+    <li>
+      <a href="https://www.researchgate.net/profile/Gianmarco-La-Rosa-3"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="icon-link">
+        <img src="researchgate.svg" alt="ResearchGate logo">
+        ResearchGate
+      </a>
+    </li>
+
+    <li>
+      <a href="https://scholar.google.com/citations?hl=en&user=dXPxc_QAAAAJ"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="icon-link">
+        <img src="Google_Scholar_logo.svg" alt="Google Scholar logo">
+        Google Scholar
+      </a>
+    </li>
+  </ul>
+
+  <p class="cv-note">
+    For publications and preprints, see the
+    <a href="research.html">Research</a> page.
+  </p>
+
+  <div class="visitor-counter">
+    <span class="counter-label">VISITORS</span>
+    <div id="split-counter"></div>
   </div>
+</section>
 
-  <script>
-    fetch("header.html")
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("header").innerHTML = data;
-      })
-      .catch(error => {
-        console.error("Error loading header:", error);
+</main>
+
+<footer>
+  Last updated: August 2026.
+</footer>
+
+</div>
+
+<script>
+  fetch("header.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("header").innerHTML = data;
+    })
+    .catch(error => {
+      console.error("Error loading header:", error);
+    });
+</script>
+
+
+<script data-goatcounter="https://gianmarcolarosa.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+<script>
+  fetch("https://gianmarcolarosa.goatcounter.com/counter/%2F.json")
+    .then(response => response.json())
+    .then(data => {
+      const counter = document.getElementById("split-counter");
+
+      const number = data.count
+        .replace(/\D/g, "")
+        .padStart(6, "0");
+
+      number.split("").forEach(digit => {
+        const flap = document.createElement("span");
+        flap.className = "flap";
+        flap.textContent = digit;
+        counter.appendChild(flap);
       });
-  </script>
+    })
+    .catch(error => {
+      console.error("Error loading visitor count:", error);
+    });
+</script>
+
 </body>
 </html>
