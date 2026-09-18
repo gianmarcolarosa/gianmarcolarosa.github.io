@@ -20,9 +20,22 @@
 <ul>
   <li>
     <strong>Geometria (6 CFU)</strong><br>
-
     <p>
-      C.d.L. in Ingegneria delle Tecnologie per il Mare (sede Trapani)
+      C.d.L. triennale in Ingegneria Biomedica, cattedra M–Z
+    </p>
+  </li>
+
+  <li>
+    <strong>Geometria (6 CFU)</strong><br>
+    <p>
+      C.d.L. triennale in Ingegneria delle Tecnologie per il Mare (sede Trapani)
+    </p>
+  </li>
+
+  <li>
+    <strong>Geometria 1 – Modulo I: Algebra Lineare (6 CFU)</strong><br>
+    <p>
+      C.d.L. triennale in Matematica
     </p>
   </li>
 </ul>
@@ -45,7 +58,7 @@
   <li>
     <strong>Geometria (6 CFU)</strong><br>
 
-    C.d.L. in Ingegneria Ambientale per lo Sviluppo Sostenibile, Ingegneria Civile, ed Ingegneria Edile, Innovazione e Recupero del Costruito
+    C.d.L. triennale in Ingegneria Ambientale per lo Sviluppo Sostenibile, Ingegneria Civile, ed Ingegneria Edile, Innovazione e Recupero del Costruito
 
     <p>
       <a href="https://drive.google.com/drive/folders/1SIiLEd8T3HuiiXykIyMiEs1hQ1zmlRmN?usp=sharing" target="_blank">[Temi d'esame]</a>
@@ -61,7 +74,7 @@
 
       <strong>Geometria (6 CFU)</strong><br>
 
-      C.d.L. in Ingegneria Ambientale per lo Sviluppo Sostenibile, Ingegneria Civile, ed Ingegneria Edile, Innovazione e Recupero del Costruito
+      C.d.L. triennale in Ingegneria Ambientale per lo Sviluppo Sostenibile, Ingegneria Civile, ed Ingegneria Edile, Innovazione e Recupero del Costruito
       <p>
         <a href="https://drive.google.com/drive/folders/1FzkVF2HSDMcbVGS6FlPP1TYMCbR96IXr?usp=drive_link" target="_blank">[Temi d'esame]</a>
       </p>
@@ -71,20 +84,35 @@
 </section>
     </main>
 
-    <footer>
-      Last updated: August 2026.
-    </footer>
+    <div id="footer"></div>
   </div>
 
   <script>
-    fetch("header.html")
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("header").innerHTML = data;
-      })
-      .catch(error => {
-        console.error("Error loading header:", error);
-      });
-  </script>
+  fetch("header.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("header").innerHTML = data;
+    })
+    .catch(error => {
+      console.error("Error loading header:", error);
+    });
+
+  fetch("footer.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("footer").innerHTML = data;
+
+      const modified = new Date(document.lastModified);
+
+      document.getElementById("last-updated").textContent =
+        modified.toLocaleDateString("en-US", {
+          month: "long",
+          year: "numeric"
+        });
+    })
+    .catch(error => {
+      console.error("Error loading footer:", error);
+    });
+</script>
 </body>
 </html>
