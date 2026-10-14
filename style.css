@@ -233,3 +233,23 @@ nav a {
   background: #000;
   box-shadow: 0 1px 0 rgba(255,255,255,0.12);
 }
+
+.academic-details {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+.academic-details summary {
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  list-style-position: inside;
+}
+
+.academic-details summary:hover {
+  text-decoration: underline;
+}
+
+.academic-details ul {
+  margin-top: 1em;
+}
