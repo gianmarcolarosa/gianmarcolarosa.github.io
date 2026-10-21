@@ -253,3 +253,25 @@ nav a {
 .academic-details ul {
   margin-top: 1em;
 }
+
+h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h2 a:hover {
+  text-decoration: underline;
+}
+
+.materials-title {
+  font-size: 1.1em;
+}
+
+.materials-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.materials-title a:hover {
+  text-decoration: underline;
+}
