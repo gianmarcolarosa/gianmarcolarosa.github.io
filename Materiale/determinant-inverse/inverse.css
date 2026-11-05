@@ -1,0 +1,851 @@
+/* matrix-inverse styles, nested under #tab-inverse (CSS nesting) so they do not clash with the determinant styles */
+#tab-inverse {
+  --acc: var(--accent); --pub: var(--pos); --priv: var(--neg);
+section {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+h2 {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+}
+h2 .n {
+  display: inline-block;
+  width: 1.7em;
+  height: 1.7em;
+  line-height: 1.7em;
+  text-align: center;
+  border-radius: 50%;
+  background: var(--acc);
+  color: var(--card);
+  margin-right: 8px;
+  font-size: 0.9rem;
+}
+label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 4px 12px 4px 0;
+}
+input[type="number"],
+input[type="text"] {
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 1rem;
+}
+input[type="number"] {
+  width: 110px;
+}
+input[type="text"] {
+  width: 260px;
+}
+button {
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--acc);
+  color: var(--card);
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+.err {
+  color: var(--priv);
+  font-weight: 600;
+}
+.ok {
+  color: var(--pub);
+  font-weight: 600;
+}
+.muted {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+.formula {
+  font-family: ui-monospace, Menlo, monospace;
+  background: color-mix(in srgb, var(--ink) 7%, var(--card));
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin: 8px 0;
+  overflow-x: auto;
+}
+.keys {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 8px;
+}
+.key {
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: var(--card);
+  font-family: ui-monospace, Menlo, monospace;
+}
+.key.pub {
+  background: var(--pub);
+}
+.key.priv {
+  background: var(--priv);
+}
+table {
+  border-collapse: collapse;
+  margin: 8px 0;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.9rem;
+}
+th,
+td {
+  border: 1px solid var(--line);
+  padding: 3px 9px;
+  text-align: right;
+}
+th {
+  background: color-mix(in srgb, var(--ink) 7%, var(--card));
+}
+td.hl {
+  background: color-mix(in srgb, #e08a00 20%, var(--card));
+  font-weight: 700;
+}
+.row2 {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.row2 > div {
+  flex: 1 1 400px;
+}
+.chars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+.chars button {
+  background: var(--line);
+  color: var(--ink);
+}
+.chars button.sel {
+  background: var(--acc);
+  color: var(--card);
+}
+svg text {
+  font:
+    11px ui-monospace,
+    Menlo,
+    monospace;
+}
+.flow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-family: ui-monospace, Menlo, monospace;
+  margin: 8px 0;
+}
+.flow span.box {
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: var(--line);
+}
+.flow span.box.c {
+  background: color-mix(in srgb, var(--neg) 18%, var(--card));
+}
+.flow span.box.m {
+  background: color-mix(in srgb, var(--pos) 20%, var(--card));
+}
+
+.pow-body {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.steps {
+  overflow-x: auto;
+}
+.steps td,
+.steps th {
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* ---- recursion visualizer ---- */
+.cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 760px) {
+  .cols {
+    grid-template-columns: 1fr;
+  }
+}
+pre.code {
+  background: var(--ink);
+  color: var(--line);
+  padding: 12px 14px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 4px 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+.tree-wrap {
+  overflow: auto;
+  max-height: 520px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--ink) 4%, var(--card));
+}
+.ctrl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 8px 0;
+}
+.ctrl input[type="range"] {
+  flex: 1 1 240px;
+}
+.ctrl button.alt {
+  background: var(--line);
+  color: var(--ink);
+}
+.stackbox {
+  min-width: 200px;
+}
+.frame {
+  border: 2px solid #e08a00;
+  background: color-mix(in srgb, #e08a00 30%, var(--card));
+  border-radius: 6px;
+  padding: 2px 10px;
+  margin: 3px 0;
+  text-align: center;
+}
+.frame.top {
+  background: color-mix(in srgb, #e08a00 42%, var(--card));
+  font-weight: 700;
+}
+.legend span {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 4px;
+  border: 2px solid;
+  margin-right: 8px;
+  font-size: 0.85rem;
+}
+.run {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.run > .tree-col {
+  flex: 1 1 520px;
+  min-width: 0;
+}
+select {
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+/* ---- gcd / lcm visualizer ---- */
+.two {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.two > div {
+  flex: 1 1 360px;
+  min-width: 0;
+}
+tr.cur td {
+  background: color-mix(in srgb, #e08a00 30%, var(--card));
+}
+tr.cur td.hl {
+  background: color-mix(in srgb, #e08a00 42%, var(--card));
+}
+.hide {
+  display: none;
+}
+
+#rect {
+  overflow: hidden;
+}
+
+.vars {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 8px 0;
+}
+.var {
+  min-width: 74px;
+  border: 2px solid var(--line);
+  border-radius: 8px;
+  padding: 4px 10px;
+  text-align: center;
+  background: var(--card);
+  font-family: ui-monospace, Menlo, monospace;
+}
+.var.changed {
+  border-color: #e08a00;
+  background: color-mix(in srgb, #e08a00 30%, var(--card));
+}
+.vn {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.vv {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+.vp {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.fig {
+  max-width: 340px;
+  width: 100%;
+  margin: 0 auto;
+}
+.badge {
+  display: inline-block;
+  padding: 1px 10px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+.badge.prime {
+  background: color-mix(in srgb, var(--pos) 20%, var(--card));
+  color: var(--pub);
+}
+.badge.comp {
+  background: color-mix(in srgb, #e08a00 30%, var(--card));
+  color: color-mix(in srgb, #e08a00 65%, var(--ink));
+}
+
+/* ---- sets / relations / functions ---- */
+nav.top {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+  padding: 8px;
+}
+nav.top a {
+  margin: 0 10px;
+  color: var(--acc);
+  font-weight: 600;
+  text-decoration: none;
+}
+input.wide {
+  width: 320px;
+  max-width: 100%;
+}
+.mx {
+  border-collapse: collapse;
+  margin: 8px 0;
+  font-family: ui-monospace, Menlo, monospace;
+}
+.mx th,
+.mx td {
+  border: 1px solid var(--line);
+  text-align: center;
+  padding: 0;
+  width: 34px;
+  height: 30px;
+}
+.mx th {
+  background: color-mix(in srgb, var(--ink) 7%, var(--card));
+  font-weight: 700;
+}
+.mx td.cell {
+  cursor: pointer;
+}
+.mx td.cell:hover {
+  background: var(--line);
+}
+.mx td.cell.on {
+  background: color-mix(in srgb, var(--accent) 25%, var(--card));
+  font-weight: 700;
+  color: var(--acc);
+}
+.mx td.cell.diag {
+  box-shadow: inset 0 0 0 2px #e08a00;
+}
+.props td:first-child {
+  text-align: left;
+  font-family: inherit;
+  font-weight: 600;
+}
+.props td {
+  text-align: left;
+  font-family: inherit;
+}
+.yes {
+  color: var(--pub);
+  font-weight: 700;
+}
+.no {
+  color: var(--priv);
+  font-weight: 700;
+}
+.verdict {
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin: 10px 0;
+  background: color-mix(in srgb, var(--ink) 7%, var(--card));
+  border-left: 6px solid var(--acc);
+}
+.verdict.good {
+  background: color-mix(in srgb, var(--pos) 20%, var(--card));
+  border-left-color: var(--pub);
+}
+.cls {
+  display: inline-block;
+  border: 2px solid;
+  border-radius: 10px;
+  padding: 3px 12px;
+  margin: 3px 6px 3px 0;
+  font-family: ui-monospace, Menlo, monospace;
+}
+.opsel {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 8px 0;
+}
+.opsel button {
+  background: var(--line);
+  color: var(--ink);
+}
+.opsel button.sel {
+  background: var(--acc);
+  color: var(--card);
+}
+.fig2 {
+  max-width: 460px;
+  width: 100%;
+}
+
+table.symbols {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: inherit;
+}
+table.symbols td {
+  border: 1px solid var(--line);
+  padding: 4px 10px;
+  text-align: left;
+  vertical-align: middle;
+  font-family: inherit;
+}
+table.symbols td:first-child {
+  width: 34%;
+  text-align: center;
+  background: color-mix(in srgb, var(--ink) 4%, var(--card));
+}
+.formula {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.mx th.corner {
+  font-size: 0.68rem;
+  width: auto;
+  padding: 0 6px;
+  white-space: nowrap;
+  color: var(--muted);
+}
+
+details summary {
+  cursor: pointer;
+  color: var(--acc);
+  font-weight: 600;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+  max-width: 640px;
+}
+.chip {
+  background: color-mix(in srgb, var(--pos) 10%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--pos) 30%, var(--card));
+  border-radius: 6px;
+  padding: 2px 8px;
+}
+
+/* input forms: two aligned columns */
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 20px;
+  margin: 12px 0;
+}
+.form label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+.form label input,
+.form label select {
+  flex: 1;
+  min-width: 0;
+  width: auto;
+  max-width: none;
+}
+.form .btnrow {
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 700px) {
+  .form {
+    grid-template-columns: 1fr;
+  }
+}
+
+#legend summary {
+  cursor: pointer;
+  list-style-position: inside;
+}
+#legend summary h2 {
+  display: inline;
+}
+#legend summary h2 .muted {
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+#legend details[open] summary {
+  margin-bottom: 8px;
+}
+
+/* ---- modular arithmetic ---- */
+.mt {
+  border-collapse: collapse;
+  margin: 8px 0;
+  font-family: ui-monospace, Menlo, monospace;
+}
+.mt td,
+.mt th {
+  border: 1px solid var(--card);
+  width: 30px;
+  height: 28px;
+  text-align: center;
+  padding: 0;
+  font-size: 0.78rem;
+}
+.mt th {
+  background: color-mix(in srgb, var(--ink) 7%, var(--card));
+  font-weight: 700;
+}
+.mt td.sel {
+  box-shadow: inset 0 0 0 3px var(--ink);
+  font-weight: 700;
+}
+.mt td.res {
+  box-shadow: inset 0 0 0 3px var(--pos);
+  font-weight: 700;
+}
+.mt th.sel {
+  background: color-mix(in srgb, #e08a00 42%, var(--card));
+}
+.scan {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 8px 0;
+}
+.cellv {
+  width: 38px;
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--card);
+  font-family: ui-monospace, Menlo, monospace;
+}
+.cellv small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.7rem;
+  border-bottom: 1px solid var(--line);
+}
+.cellv.ok {
+  background: color-mix(in srgb, var(--pos) 20%, var(--card));
+  border-color: var(--pub);
+  font-weight: 700;
+}
+.opsel2 {
+  display: flex;
+  gap: 6px;
+  margin: 6px 0;
+}
+.opsel2 button {
+  background: var(--line);
+  color: var(--ink);
+}
+.opsel2 button.sel {
+  background: var(--acc);
+  color: var(--card);
+}
+
+.form4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px 16px;
+  margin: 12px 0;
+}
+.form4 label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+.form4 label input {
+  flex: 1;
+  min-width: 0;
+  width: auto;
+}
+@media (max-width: 700px) {
+  .form4 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.crtrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+}
+.crtrow input {
+  width: 110px;
+}
+.crtrow button.rm {
+  padding: 4px 10px;
+}
+.crtrow button:disabled,
+.ctrl button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.katex-display.al {
+  text-align: left;
+  padding-left: 6%;
+}
+.katex-display.al > .katex {
+  text-align: left;
+}
+
+/* ---- matrix inverse / pseudo-inverse ---- */
+.part {
+  background: var(--ink);
+  color: var(--card);
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.part small {
+  font-weight: 400;
+  opacity: 0.8;
+  margin-left: 8px;
+}
+.mgrid {
+  border-collapse: separate;
+  border-spacing: 4px;
+  margin: 8px 0;
+}
+.mgrid td {
+  border: 0;
+  padding: 0;
+}
+.mgrid input {
+  width: 70px;
+  padding: 5px 6px;
+  text-align: center;
+  font: inherit;
+  font-family: ui-monospace, Menlo, monospace;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.mgrid input.bad {
+  border-color: var(--priv);
+  background: color-mix(in srgb, var(--neg) 14%, var(--card));
+}
+.presets {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 8px 0;
+  align-items: center;
+}
+.presets button {
+  background: var(--line);
+  color: var(--ink);
+  padding: 4px 10px;
+  font-size: 0.88rem;
+}
+.presets button:hover {
+  background: var(--line);
+}
+.stp .phase {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--card);
+  border-radius: 12px;
+  padding: 1px 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin: 4px 0;
+}
+.stp .log {
+  border-left: 5px solid var(--acc);
+  background: color-mix(in srgb, var(--ink) 7%, var(--card));
+  border-radius: 0 8px 8px 0;
+  padding: 8px 12px;
+  margin: 6px 0;
+}
+.stp .log.ok {
+  border-left-color: var(--pub);
+  background: color-mix(in srgb, var(--pos) 14%, var(--card));
+}
+.stp .log.err {
+  border-left-color: var(--priv);
+  background: color-mix(in srgb, var(--neg) 14%, var(--card));
+}
+.mats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 22px;
+  align-items: flex-start;
+  margin: 10px 0;
+}
+.mbox {
+  max-width: 100%;
+}
+.mbox .mname {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 2px;
+}
+.mbox .katex-display {
+  margin: 0.2em 0;
+}
+.mbox.wide {
+  font-size: 0.82em;
+}
+.stp .cnt {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.cond {
+  display: grid;
+  grid-template-columns: 2em 1fr;
+  gap: 2px 8px;
+  align-items: baseline;
+  margin: 4px 0;
+}
+.cond .yes,
+.cond .no {
+  font-size: 1.1rem;
+  text-align: center;
+}
+.cond .det {
+  grid-column: 2;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 14px;
+  margin: 10px 0;
+  background: color-mix(in srgb, var(--ink) 4%, var(--card));
+}
+.card.on {
+  border-color: var(--pub);
+  background: color-mix(in srgb, var(--pos) 10%, var(--card));
+}
+.card h4 {
+  margin: 0 0 4px;
+}
+table.cmp td,
+table.cmp th {
+  text-align: left;
+  font-family: inherit;
+  font-size: 0.9rem;
+  vertical-align: top;
+}
+.mgrid-wrap {
+  overflow-x: auto;
+}
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.lsqsvg {
+  max-width: 560px;
+  width: 100%;
+}
+h3 {
+  margin: 14px 0 6px;
+  font-size: 1.02rem;
+}
+
+.mbox .katex-display {
+  overflow: visible;
+}
+
+table.cmp {
+  font-family: system-ui, sans-serif;
+}
+
+pre.code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.mbox.wide {
+  font-size: 0.8em;
+}
+.mbox.xwide {
+  font-size: 0.58em;
+}
+
+.stk {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.stk table {
+  font-size: 0.78rem;
+}
+.stk th,
+.stk td {
+  padding: 2px 5px;
+}
+.stk .katex {
+  font-size: 1em;
+}
+@media (max-width: 800px) {
+  .stk table {
+    font-size: 0.68rem;
+  }
+  .var {
+    min-width: 56px;
+    padding: 2px 6px;
+  }
+}
+
+}

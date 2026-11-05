@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Determinante e matrice inversa passo-passo</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    ></script>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="inverse.css" />
+    <link rel="stylesheet" href="tabs.css" />
+  </head>
+
+  <body>
+    <header>
+      <label class="theme">Tema
+        <select id="theme">
+          <option value="auto">Automatico</option>
+          <option value="light">Chiaro</option>
+          <option value="dark">Scuro</option>
+        </select>
+      </label>
+      <h1>Determinante e matrice inversa passo-passo</h1>
+      <p>Inserisci una matrice quadrata, poi scegli la scheda: determinante oppure inversa.</p>
+    </header>
+
+    <main>
+      <section class="card" id="setup">
+        <h2>Matrice</h2>
+        <div class="dims">
+          <label>Righe <input type="number" id="rows" min="1" max="8" value="3" /></label>
+          <span>×</span>
+          <label>Colonne <input type="number" id="cols" min="1" max="8" value="3" /></label>
+          <button id="example" type="button">Esempio</button>
+          <button id="random" type="button">Casuale</button>
+          <button id="clear" type="button">Azzera</button>
+        </div>
+        <div id="grid"></div>
+        <p class="hint">
+          Valori ammessi: interi, decimali (<code>2.5</code>) o frazioni
+          (<code>-3/4</code>). Il calcolo è esatto (frazioni).
+        </p>
+        <div id="msg" class="msg"></div>
+      </section>
+
+      <div class="tabs" role="tablist">
+        <button type="button" role="tab" id="t-det" aria-controls="tab-det" aria-selected="true">Determinante</button>
+        <button type="button" role="tab" id="t-inverse" aria-controls="tab-inverse" aria-selected="false">Matrice inversa</button>
+      </div>
+
+      <div id="tab-det" role="tabpanel" aria-labelledby="t-det" class="panel">
+        <section class="card">
+          <h2>Metodo</h2>
+          <div id="methods" class="methods"></div>
+
+        <div id="lapopt" class="lapopt" hidden>
+          Sviluppa lungo
+          <select id="laptype">
+            <option value="row">riga</option>
+            <option value="col">colonna</option>
+          </select>
+          <select id="lapidx"></select>
+          <label class="chk"
+            ><input type="checkbox" id="lapauto" /> scelta automatica (più
+            zeri)</label
+          >
+        </div>
+        <div id="pivopt" class="lapopt" hidden>
+          Pivoting
+          <select id="pivot">
+            <option value="none">nessuno (scambio solo se il pivot è 0)</option>
+            <option value="partial">
+              parziale (pivot di modulo maggiore nella colonna)
+            </option>
+          </select>
+        </div>
+        <button id="go" class="primary" type="button">Calcola</button>
+      </section>
+
+      <section id="result"></section>
+      </div>
+
+      <div id="tab-inverse" role="tabpanel" aria-labelledby="t-inverse" class="panel" hidden>
+        <section>
+          <h2>Matrice inversa</h2>
+          <p>
+            Due metodi: la <b>matrice dei cofattori</b> (minori, segni a
+            scacchiera, trasposta e divisione per $\det A$) e
+            l'<b>eliminazione di Gauss–Jordan</b> su $[A\,|\,I]$. Esiste solo
+            se $\det A \ne 0$.
+          </p>
+          <div id="invmethods" class="methods">
+            <label class="method"><input type="radio" name="invm" value="cof" checked />Matrice dei cofattori</label>
+            <label class="method"><input type="radio" name="invm" value="gj" />Gauss–Jordan</label>
+          </div>
+          <div id="gjopt" class="lapopt" hidden>
+            <label class="chk"><input type="checkbox" id="gjPartial" /> pivoting parziale (pivot di valore assoluto massimo)</label>
+          </div>
+          <button id="goInv" class="primary" type="button">Calcola l'inversa</button>
+        </section>
+        <div id="invresult" hidden>
+          <section id="sec_cof">
+            <h2>Cofattori e matrice aggiunta</h2>
+            <div id="st_cof"></div>
+          </section>
+          <section id="sec_gj">
+            <h2>Gauss–Jordan su $[A\,|\,I]$</h2>
+            <div id="st_gj"></div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <script src="theme.js"></script>
+    <script src="det.js"></script>
+    <script src="inverse.js"></script>
+    <script src="app.js"></script>
+    <script src="inverse-app.js"></script>
+  </body>
+</html>
