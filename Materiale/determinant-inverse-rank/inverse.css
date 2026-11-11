@@ -1,5 +1,5 @@
 /* matrix-inverse styles, nested under #tab-inverse (CSS nesting) so they do not clash with the determinant styles */
-#tab-inverse {
+:is(#tab-inverse, #tab-rank) {
   --acc: var(--accent); --pub: var(--pos); --priv: var(--neg);
 section {
   background: var(--card);

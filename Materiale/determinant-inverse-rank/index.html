@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Determinante e matrice inversa passo-passo</title>
+    <title>Determinante, inversa e rango passo-passo</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
@@ -30,8 +30,8 @@
           <option value="dark">Scuro</option>
         </select>
       </label>
-      <h1>Determinante e matrice inversa passo-passo</h1>
-      <p>Inserisci una matrice quadrata, poi scegli la scheda: determinante oppure inversa.</p>
+      <h1>Determinante, inversa e rango passo-passo</h1>
+      <p>Inserisci una matrice, poi scegli la scheda: determinante, inversa (matrici quadrate) oppure rango (qualsiasi matrice).</p>
     </header>
 
     <main>
@@ -56,6 +56,7 @@
       <div class="tabs" role="tablist">
         <button type="button" role="tab" id="t-det" aria-controls="tab-det" aria-selected="true">Determinante</button>
         <button type="button" role="tab" id="t-inverse" aria-controls="tab-inverse" aria-selected="false">Matrice inversa</button>
+        <button type="button" role="tab" id="t-rank" aria-controls="tab-rank" aria-selected="false">Rango</button>
       </div>
 
       <div id="tab-det" role="tabpanel" aria-labelledby="t-det" class="panel">
@@ -119,12 +120,37 @@
           </section>
         </div>
       </div>
+
+      <div id="tab-rank" role="tabpanel" aria-labelledby="t-rank" class="panel" hidden>
+        <section>
+          <h2>Rango della matrice</h2>
+          <p>
+            Il <b>rango</b> $\operatorname{rg}(A)$ è il numero massimo di righe (o colonne)
+            linearmente indipendenti. Vale per ogni matrice, anche non quadrata.
+            Scegli il metodo:
+          </p>
+          <div id="rankmethods" class="methods">
+            <label class="method"><input type="radio" name="rkm" value="gauss" checked />Eliminazione di Gauss</label>
+            <label class="method"><input type="radio" name="rkm" value="gj" />Gauss–Jordan (forma ridotta)</label>
+            <label class="method"><input type="radio" name="rkm" value="minors" />Minori orlati (Kronecker)</label>
+          </div>
+          <button id="goRank" class="primary" type="button">Calcola il rango</button>
+        </section>
+        <div id="rankresult" hidden>
+          <section>
+            <h2 id="rankTitle"></h2>
+            <div id="st_rank"></div>
+          </section>
+        </div>
+      </div>
     </main>
 
     <script src="theme.js"></script>
     <script src="det.js"></script>
     <script src="inverse.js"></script>
     <script src="app.js"></script>
+    <script src="rank.js"></script>
     <script src="inverse-app.js"></script>
+    <script src="rank-app.js"></script>
   </body>
 </html>

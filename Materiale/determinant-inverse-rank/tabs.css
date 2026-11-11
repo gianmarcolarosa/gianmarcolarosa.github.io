@@ -5,10 +5,10 @@
 .panel { display: grid; gap: 18px; }
 .panel[hidden] { display: none; }
 /* an id rule (#tab-inverse { display: grid }) would otherwise beat the hidden attribute */
-#tab-inverse[hidden] { display: none; }
+#tab-inverse[hidden], #tab-rank[hidden] { display: none; }
 /* the inverse sections look like the determinant cards */
-#tab-inverse section { border-radius: 14px; padding: 18px 20px; box-shadow: 0 2px 8px #0000000d; }
-#tab-inverse section h2 { margin: 0 0 12px; font-size: 18px; }
+#tab-inverse section, #tab-rank section { border-radius: 14px; padding: 18px 20px; box-shadow: 0 2px 8px #0000000d; }
+#tab-inverse section h2, #tab-rank section h2 { margin: 0 0 12px; font-size: 18px; }
 /* theme choice: data-theme on <html> beats the prefers-color-scheme rule of style.css */
 :root[data-theme="light"] { color-scheme: light; --bg: #f4f6fb; --card: #fff; --ink: #1d2433; --muted: #66708a; --line: #d9deea; --accent: #3b5bdb; }
 :root[data-theme="dark"] { color-scheme: dark; --bg: #151a26; --card: #1f2638; --ink: #e8ecf7; --muted: #98a2bd; --line: #38425c; --accent: #7c93ff; }

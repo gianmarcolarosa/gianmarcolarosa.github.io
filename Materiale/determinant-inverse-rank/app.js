@@ -39,7 +39,7 @@ function refreshMethods() {
   const square = r === c;
   $("msg").textContent = square
     ? ""
-    : `Matrice ${r}×${c}: il determinante è definito solo per matrici quadrate (righe = colonne).`;
+    : `Matrice ${r}×${c}: determinante e inversa sono definiti solo per matrici quadrate (righe = colonne); il rango no.`;
   $("go").disabled = !square;
   $("methods").innerHTML = Object.entries(METHODS)
     .map(([id, m]) => {

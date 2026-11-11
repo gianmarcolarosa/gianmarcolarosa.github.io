@@ -8,11 +8,11 @@ const gjStepper = INV.makeStepper("st_gj", 1400);
 const toInv = (M) => M.map((row) => row.map((f) => INV.fr(f.n, f.d)));
 
 function showTab(id) {
-  for (const t of ["det", "inverse"]) {
+  for (const t of ["det", "inverse", "rank"]) {
     $("tab-" + t).hidden = t !== id;
     $("t-" + t).setAttribute("aria-selected", String(t === id));
   }
-  if (id === "inverse") INV.typeset($("tab-inverse")); // typeset the static $...$ of the tab
+  if (id !== "det") INV.typeset($("tab-" + id)); // typeset the static $...$ of the tab
 }
 
 const inverseMethod = () => document.querySelector('input[name="invm"]:checked').value;
@@ -40,6 +40,7 @@ function calculateInverse() {
 
 $("t-det").addEventListener("click", () => showTab("det"));
 $("t-inverse").addEventListener("click", () => showTab("inverse"));
+$("t-rank").addEventListener("click", () => showTab("rank"));
 $("goInv").addEventListener("click", calculateInverse);
 $("gjPartial").addEventListener("change", () => {
   if (!$("invresult").hidden) calculateInverse();

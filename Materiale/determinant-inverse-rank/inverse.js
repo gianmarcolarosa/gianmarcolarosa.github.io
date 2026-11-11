@@ -662,5 +662,5 @@ function makeStepper(rootId, delay = 1500, onStep = null) {
   return c;
 }
 
-return { Fr, fr, matTex, cofactorSteps, gaussJordanSteps, makeStepper, typeset, numbered };
+return { Fr, fr, ZERO, ONE, mCopy, mat, T, opSwap, opScale, opElim, det, gjEngine, matTex, cofactorSteps, gaussJordanSteps, makeStepper, typeset, numbered };
 })();
